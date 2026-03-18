@@ -1,0 +1,1 @@
+<h1>{{session('success')}}</h1>
