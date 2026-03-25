@@ -4,22 +4,14 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class ContactController extends Controller
+class asd extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return 'This is my index page';
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        return 'This is my create page';
+        //
     }
 
     /**
@@ -34,14 +26,6 @@ class ContactController extends Controller
      * Display the specified resource.
      */
     public function show(string $id)
-    {
-        return 'This is my show page';
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
     {
         //
     }
