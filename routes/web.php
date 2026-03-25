@@ -114,16 +114,23 @@ Route::get('read-cookie', function(Request $request)
 //     return redirect()->action([StudentController::class, 'students'], ['name' => 'Salil']);
 // });
 
-Route::get('/dashboard', function() {
-    return view('dashboard');
-})->name('AB');
-Route::get('/login/{email}/{password}', function($email, $password) {
-    if($email == 'salil@gmail.com' && $password == '12345')
-    {
-        return redirect()->route('AB')->with('email', $email)->with('password', $password)->with('success', 'Login Successful');
-    }
-    else
-    {
-        return 'Login Failed';
-    }
+// Route::get('/dashboard', function() {
+//     return view('dashboard');
+// })->name('AB');
+// Route::get('/login/{email}/{password}', function($email, $password) {
+//     if($email == 'salil@gmail.com' && $password == '12345')
+//     {
+//         return redirect()->route('AB')->with('email', $email)->with('password', $password)->with('success', 'Login Successful');
+//     }
+//     else
+//     {
+//         return 'Login Failed';
+//     }
+// });
+
+use App\Http\Controllers\API\BookController;
+
+Route::middleware('book.access')->group(function () {
+    Route::get('/books', [BookController::class, 'index']);
+    Route::get('/books/{id}', [BookController::class, 'show']);
 });
