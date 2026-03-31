@@ -134,3 +134,10 @@ Route::middleware('book.access')->group(function () {
     Route::get('/books', [BookController::class, 'index']);
     Route::get('/books/{id}', [BookController::class, 'show']);
 });
+
+Route::get('/test',[StudentController::class, 'students']); 
+Route::get('/test1',[StudentController::class, 'profile'])
+->middleware('check.course');
+Route::get('/test2',function(){
+    return 'This is test2 route';
+});
