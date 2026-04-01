@@ -138,6 +138,11 @@ Route::middleware('book.access')->group(function () {
 Route::get('/test',[StudentController::class, 'students']); 
 Route::get('/test1',[StudentController::class, 'profile'])
 ->middleware('check.course');
-Route::get('/test2',function(){
-    return 'This is test2 route';
+// Route::get('/test2',function(){
+//     return 'This is test2 route';
+// });
+
+
+Route::get('/test2', function(){
+    return view ('home');
 });
