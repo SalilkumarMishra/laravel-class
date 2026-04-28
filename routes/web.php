@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\PostController;
+use Illuminate\Support\Facades\Storage;
 
 Route::get('/', function () {
     return view('welcome');
@@ -55,12 +56,13 @@ Route::get('/dashboard',function(){
 Route::get('/post',[PostController::class,'index']);
 
 
+// Request data examples: reading values from the current request object.
 Route::get('url-generation',function(){
     return [
         'current'=>url()->current(),
         'current-with-request'=>request()->current(),
         'fullURL-with-request'=>request()->fullUrl(),
-        'fullURL'=>url()->full(),
+        //'fullURL'=>url()->full(),
         'path'=>request()->path(),
         'previous'=>url()->previous(),
         'url'=>url('/home',['id'=>3]),
@@ -68,3 +70,44 @@ Route::get('url-generation',function(){
         'action'
         ];
 });
+
+// Old input example: the form below repopulates fields after a validation error.
+Route::get('/old-input', function () {
+    return view('old-input');
+})->name('old-input.form');
+
+Route::post('/old-input', function () {
+    request()->validate([
+        'name' => ['required', 'string', 'max:255'],
+        'email' => ['required', 'email'],
+        'message' => ['required', 'string', 'max:500'],
+    ]);
+
+    return redirect()->route('old-input.form')->with('status', 'Form submitted successfully.');
+})->name('old-input.submit');
+
+// File upload example: the uploaded file is stored on the public disk.
+Route::get('/file-upload', function () {
+    return view('file-upload');
+})->name('file-upload.form');
+
+Route::post('/file-upload', function () {
+    $validated = request()->validate([
+        'title' => ['required', 'string', 'max:255'],
+        'description' => ['nullable', 'string', 'max:500'],
+        'attachment' => ['required', 'file', 'mimes:jpg,jpeg,png,pdf', 'max:2048'],
+    ]);
+
+    $path = request()->file('attachment')->store('uploads', 'public');
+
+    return redirect()
+        ->route('file-upload.form')
+        ->with('status', 'File uploaded successfully.')
+        ->with('uploaded_file', [
+            'title' => $validated['title'],
+            'description' => $validated['description'] ?? null,
+            'path' => $path,
+            'url' => Storage::url($path),
+            'original_name' => request()->file('attachment')->getClientOriginalName(),
+        ]);
+})->name('file-upload.submit');
