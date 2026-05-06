@@ -1,4 +1,11 @@
 @extends('layout')
+
 @section('content')
-<h2>This is my content</h2>
+
+<h2>{{ __('messages.home') }}</h2>
+
+<p>
+    {{ __('messages.welcome') }}
+</p>
+
 @endsection

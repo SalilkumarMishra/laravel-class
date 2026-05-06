@@ -11,16 +11,21 @@ return Application::configure(basePath: dirname(__DIR__))
         commands: __DIR__ . '/../routes/console.php',
         health: '/up',
     )
+
     ->withMiddleware(function (Middleware $middleware): void {
+
         $middleware->alias([
             'book.access' => \App\Http\Middleware\CheckBookAccess::class,
+            'check.course' => \App\Http\Middleware\CheckCourse::class,
+        ]);
+
+        $middleware->web(append: [
+            \App\Http\Middleware\Setlocale::class,
         ]);
     })
-    ->withMiddleware(function (Middleware $middleware): void {
-    $middleware->alias([
-        'check.course' => \App\Http\Middleware\CheckCourse::class,
-    ]);
-})
+
     ->withExceptions(function (Exceptions $exceptions): void {
         //
-    })->create();
+    })
+
+    ->create();
