@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Session;
+use App\Http\Controllers\FormController;
+
 
 Route::get('/', function () {
     return view('welcome');
@@ -316,3 +318,12 @@ Route::get('/lang/{locale}', function ($locale) {
 
     return redirect()->back();
 });
+
+Route::get('/form', [FormController::class, 'showForm']);
+Route::post('/submit-form', [FormController::class, 'submitForm']);
+
+
+
+use App\Http\Controllers\ProductController;
+//Route::show('/products', [ProductController::class, 'index'])->name('products.index');
+Route::resource('Product', ProductController::class);
