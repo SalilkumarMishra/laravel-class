@@ -327,3 +327,84 @@ Route::post('/submit-form', [FormController::class, 'submitForm']);
 use App\Http\Controllers\ProductController;
 //Route::show('/products', [ProductController::class, 'index'])->name('products.index');
 Route::resource('Product', ProductController::class);
+
+
+
+
+
+use Illuminate\Support\Facades\DB;
+Route::get('/insert',function()
+{
+    DB::table('movies')->insert([
+    [
+        'movie_name' => 'Inception',
+        'rating' => 9,
+        'description' => 'A thief enters people\'s dreams to steal secrets.',
+        'release_date' => '2010-07-16',
+        'category' => 'Sci-Fi',
+        'created_at' => now(),
+        'updated_at' => now(),
+    ],
+    [
+        'movie_name' => 'Interstellar',
+        'rating' => 9,
+        'description' => 'A team travels through a wormhole to save humanity.',
+        'release_date' => '2014-11-07',
+        'category' => 'Adventure',
+        'created_at' => now(),
+        'updated_at' => now(),
+    ],
+    [
+        'movie_name' => 'The Dark Knight',
+        'rating' => 10,
+        'description' => 'Batman faces the Joker in Gotham City.',
+        'release_date' => '2008-07-18',
+        'category' => 'Action',
+        'created_at' => now(),
+        'updated_at' => now(),
+    ],
+    [
+        'movie_name' => 'Avengers: Endgame',
+        'rating' => 8,
+        'description' => 'The Avengers unite to defeat Thanos.',
+        'release_date' => '2019-04-26',
+        'category' => 'Superhero',
+        'created_at' => now(),
+        'updated_at' => now(),
+    ],
+    [
+        'movie_name' => '3 Idiots',
+        'rating' => 9,
+        'description' => 'Three engineering students navigate college life.',
+        'release_date' => '2009-12-25',
+        'category' => 'Comedy',
+        'created_at' => now(),
+        'updated_at' => now(),
+    ]
+]);
+
+    return 'Data inserted successfully';
+});
+
+
+Route::get('/read-all-data', function () {
+    $movies = DB::table('movies')->get();
+        return $movies;
+    
+});
+
+Route::get('/read-single-data', function () {
+    $movie = DB::table('movies')->where('id', 3)->get();
+    return $movie;
+    
+});
+
+Route::get('/update-data', function () {
+    $updated = DB::table('movies')->where('id', 2)->update(['rating' => 10]);
+    return $updated ? 'Data updated successfully' : 'No data updated';
+});
+
+Route::get('/delete-data', function () {
+    $deleted = DB::table('movies')->where('id', 5)->delete();
+    return $deleted ? 'Data deleted successfully' : 'No data deleted';
+});

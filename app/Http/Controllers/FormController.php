@@ -2,31 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Http\Requests\StoreUserRequest;
 
 class FormController extends Controller
 {
     public function showForm()
     {
-        return view('form');
+        return view('formvalidation');
     }
 
-    public function submitForm(Request $request)
+    public function submitForm(StoreUserRequest $request)
     {
-        $username = $request->input('username');
-        $email = $request->input('email');
+        $validated = $request->validated();
 
-        // Process the form data as needed
-        // For example, you can save it to the database or perform validation
-        $request->validate(
-            [
-                'username' => 'required|string|max:255',
-                'email' => 'required|email|max:255',
-            ],
-            [
-                'email.required' => 'The email field is required.',
-            ]
-        );
-        return "Form submitted successfully! Username: $username, Email: $email";
+        return "Form submitted successfully! Student Name: {$validated['studentname']}, Email: {$validated['email']}";
     }
 }
